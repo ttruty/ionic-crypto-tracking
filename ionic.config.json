@@ -1,0 +1,7 @@
+{
+  "name": "ionic-rental-app",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

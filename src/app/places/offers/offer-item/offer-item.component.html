@@ -1,0 +1,20 @@
+<ion-item>
+  <ion-badge slot="start">Available</ion-badge>
+    <ion-label>{{ offer.title }}</ion-label>
+    <ion-label class="ion-text-right">
+    <p>{{ offer.price | currency}}</p>
+    <div class="offer-details">
+      <ion-icon slot="start" name="calendar" color="secondary"></ion-icon>
+      <ion-text color="primary" class="space-left">
+        {{ getDummyDate() | date}}
+      </ion-text>
+      <span class="space-left">to</span>
+      <ion-icon slot="start" name="calendar" color="secondary"></ion-icon>
+      <ion-text color="primary" class="space-left">
+        {{ getDummyDate() | date}}
+      </ion-text>
+
+    </div>
+  </ion-label>
+
+</ion-item>

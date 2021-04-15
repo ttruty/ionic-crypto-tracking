@@ -1,9 +1,48 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>auth</ion-title>
+    <ion-title>{{ isLogin ? 'Login' : 'Signup'}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-
+<ion-content class="ion-padding">
+  <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size-sm="6" offset-sm="3">
+          <ion-item>
+            <ion-label position="floating">E-Mail <ion-text color="danger">*</ion-text></ion-label>
+            <ion-input
+              required
+              formControlName="email"
+              type="email"
+              email
+              >
+            </ion-input>
+          </ion-item>
+          <ion-item *ngIf="!loginForm.get('email').valid && loginForm.get('email').touched" lines="none">
+            <ion-label>Use a valid email address</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Password <ion-text color="danger">*</ion-text></ion-label>
+            <ion-input
+              required formControlName="password" type="password" minlength="8"></ion-input>
+          </ion-item>
+          <ion-item *ngIf="!loginForm.get('password').valid && loginForm.get('password').touched" lines="none">
+            <ion-label>Use a valid password</ion-label>
+          </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size-sm="6" offset-sm="3">
+        <ion-button color="primary" type="button" fill="clear" expand="block" (click)="onSwitchAthMode()">Switch to {{ isLogin ? 'Signup' : 'Login'}}</ion-button>
+        <ion-button color="primary" type="submit" [disabled]="loginForm.invalid" expand="block">
+          Login
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <!-- <div class="ion-text-center">
+    <ion-spinner *ngIf="isLoading"></ion-spinner>
+  </div> -->
+</form>
 </ion-content>

@@ -1,7 +1,7 @@
 import { Place } from './../../places/place.model';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-create-booking',
@@ -11,12 +11,32 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export class CreateBookingComponent implements OnInit {
   @Input() selectedPlace: Place;
   @Input() selectedMode: 'select' | 'random';
-  @ViewChild('bookingForm', { static: true }) bookingForm: FormGroup;
-
+  bookingForm: FormGroup;
   startDate: string;
   endDate: string;
 
-  constructor(private modalCtrl: ModalController) { }
+  constructor(private modalCtrl: ModalController,  public formBuilder: FormBuilder) {
+    this.bookingForm = this.formBuilder.group({
+      first_Name : new FormControl(null, {
+        validators: [Validators.required]
+      }),
+      last_Name : new FormControl(null, {
+        validators: [Validators.required]
+      }),
+      guest_Number: new FormControl(null, {
+        validators: [Validators.required]
+      }),
+      end_Date : new FormControl(null, {
+        validators: [Validators.required]
+      }),
+      start_Date : new FormControl(null, {
+        validators: [Validators.required]
+      })
+    });
+    // this.bookingForm.valueChanges.subscribe(obs => {
+    //   console.log("Changes");
+    // })
+  }
 
   ngOnInit() {
     const availableFrom = new Date(this.selectedPlace.availableFrom);
@@ -32,43 +52,40 @@ export class CreateBookingComponent implements OnInit {
 
       this.endDate = new Date(
         new Date(this.startDate).getTime() +
-        Math.random() * (new Date(this.startDate).getTime() + 6 * 24 * 60 * 60 * 1000 - new Date(this.startDate).getTime()
+        Math.random() * (new Date(this.startDate).getTime() + 7 * 24 * 60 * 60 * 1000 - new Date(this.startDate).getTime()
       )).toISOString();
+
+      // set default values on form
+      this.bookingForm.patchValue({
+        start_Date: this.startDate,
+        end_Date: this.endDate
+      });
     }
-
-
-    this.bookingForm = new FormGroup({
-      firstName : new FormControl(null, {
-        updateOn: 'blur',
-      }),
-      lastName : new FormControl(null, {
-        updateOn: 'blur',
-      }),
-      guestNumber: new FormControl(null, {
-        updateOn: 'blur',
-      }),
-      endDate : new FormControl(this.endDate ),
-      startDate : new FormControl(this.startDate)
-    });
   }
 
   onCancel() {this.modalCtrl.dismiss(null, 'cancel')}
 
+  onSubmit() {
+    console.log(this.bookingForm.value);
+  }
+
   onBookPlace(){
-    console.log(this.bookingForm)
+    // console.log(this.bookingForm.value);
     this.modalCtrl.dismiss({
-      firstName: this.bookingForm.value.firstName,
-      lastName: this.bookingForm.value.lastName,
-      guestNumber: this.bookingForm.value.guestNumber,
-      startDate: this.bookingForm.value.startDate,
-      endDate: this.bookingForm.value.endDate
+      firstName: this.bookingForm.value.first_Name,
+      lastName: this.bookingForm.value.last_Name,
+      guestNumber: this.bookingForm.value.guest_Number,
+      startDate: this.bookingForm.value.start_Date,
+      endDate: this.bookingForm.value.end_Date
     }, 'confirm')
   }
 
 
 
   datesValid() {
-    return this.endDate > this.startDate;
+    const start = new Date(this.bookingForm.value.start_Date);
+    const end = new Date(this.bookingForm.value.end_Date);
+    return end > start;
   }
 
 }

@@ -1,20 +1,33 @@
-<ion-item>
-  <ion-badge slot="start">Available</ion-badge>
-    <ion-label>{{ offer.title }}</ion-label>
-    <ion-label class="ion-text-right">
-    <p>{{ offer.price | currency}}</p>
-    <div class="offer-details">
-      <ion-icon slot="start" name="calendar" color="secondary"></ion-icon>
-      <ion-text color="primary" class="space-left">
-        {{ getDummyDate() | date}}
-      </ion-text>
-      <span class="space-left">to</span>
-      <ion-icon slot="start" name="calendar" color="secondary"></ion-icon>
-      <ion-text color="primary" class="space-left">
-        {{ getDummyDate() | date}}
-      </ion-text>
 
-    </div>
-  </ion-label>
+  <ion-item>
+    <ion-list>
+      <ion-item>
+        <ion-label class="ion-text-center">{{ offer.title }}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-badge slot="start">Available</ion-badge>
 
-</ion-item>
+          <ion-label class="ion-text-right">
+            <p>{{ offer.price | currency}}</p>
+          </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <div class="offer-details ion-text-left">
+            <ion-icon slot="start" name="calendar" color="secondary"></ion-icon>
+            <ion-text color="primary" class="space-left">
+              {{ offer.availableFrom| date}}
+            </ion-text>
+            <span class="space-left">to</span>
+            <ion-icon slot="start" name="calendar" color="secondary"></ion-icon>
+            <ion-text color="primary" class="space-left">
+              {{ offer.availableTo| date}}
+            </ion-text>
+          </div>
+      </ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-item>
+
+
+

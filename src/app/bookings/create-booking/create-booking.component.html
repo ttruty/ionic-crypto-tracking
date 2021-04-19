@@ -10,13 +10,16 @@
 </ion-header>
 
 <ion-content class="ion-text-center ion-padding" >
-  <form [formGroup]="bookingForm">
+  <form [formGroup]="bookingForm" (ngSubmit)="onBookPlace()">
     <ion-grid>
       <ion-row>
         <ion-col size-sm="6" offset-sm="3">
           <ion-item>
             <ion-label position="floating">First Name</ion-label>
-            <ion-input  name="fistName" required></ion-input>
+            <ion-input
+              type="text"
+              formControlName="first_Name"
+              ></ion-input>
           </ion-item>
         </ion-col>
       </ion-row>
@@ -25,7 +28,7 @@
         <ion-col size-sm="6" offset-sm="3">
           <ion-item>
             <ion-label position="floating">Last Name</ion-label>
-            <ion-input  name="lastName" required></ion-input>
+            <ion-input type="text" formControlName="last_Name"></ion-input>
           </ion-item>
         </ion-col>
       </ion-row>
@@ -34,7 +37,7 @@
         <ion-col size-sm="6" offset-sm="3">
           <ion-item>
             <ion-label>Number of Guests</ion-label>
-            <ion-select name="guestNumber" value="2" multiple="false" placeholder="Guests">
+            <ion-select formControlName="guest_Number" multiple="false" placeholder="Guests">
               <ion-select-option value="1">1</ion-select-option>
               <ion-select-option value="2">2</ion-select-option>
               <ion-select-option value="3">3</ion-select-option>
@@ -53,7 +56,7 @@
               [min]='selectedPlace.availableFrom.toISOString()'
               [max]='selectedPlace.availableTo.toISOString()'
               [value]="startDate"
-              name=startDate
+              formControlName=start_Date
               #startDateCtrl
               ></ion-datetime>
           </ion-item>
@@ -61,7 +64,7 @@
       </ion-row>
 
       <ion-row>
-        <ion-col size-sm="6">
+        <ion-col size-sm="6" offset-sm="3">
           <ion-item>
             <ion-label>To</ion-label>
             <ion-datetime
@@ -70,7 +73,7 @@
               [min]='startDateCtrl.value'
               [max]='selectedPlace.availableTo.toISOString()'
               [value]="endDate"
-              name=endDate
+              formControlName=end_Date
               ></ion-datetime>
           </ion-item>
         </ion-col>
@@ -78,7 +81,7 @@
 
       <ion-row>
         <ion-col size-sm="3" offset-sm="3">
-          <ion-button type="button" color="primary" expand="block" (click)="onBookPlace()" >
+          <ion-button type="submit" color="primary" expand="block"  [disabled]="!bookingForm.valid || !datesValid()" >
             Book!
           </ion-button>
         </ion-col>

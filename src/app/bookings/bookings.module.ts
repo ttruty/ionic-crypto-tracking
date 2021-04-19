@@ -1,7 +1,6 @@
-import { CreateBookingComponent } from './create-booking/create-booking.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -12,11 +11,11 @@ import { BookingsPage } from './bookings.page';
 @NgModule({
   imports: [
     CommonModule,
+    IonicModule,
     FormsModule,
     ReactiveFormsModule,
-    IonicModule,
     BookingsPageRoutingModule
   ],
-  declarations: [BookingsPage, CreateBookingComponent]
+  declarations: [BookingsPage]
 })
 export class BookingsPageModule {}

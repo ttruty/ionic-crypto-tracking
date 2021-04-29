@@ -21,7 +21,8 @@
       </ion-card-content>
     </ion-card-content>
   </ion-card>
-<ion-button color="primary" class="ion-margin" (click)="onBookPlace()" >
+
+<ion-button [disabled]="!isBookable" color="primary" class="ion-margin" (click)="onBookPlace()" >
   Book
 </ion-button>
 </ion-content>

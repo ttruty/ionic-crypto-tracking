@@ -2,20 +2,26 @@
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/places/tabs/discover"></ion-back-button>
-      <ion-title>{{ place.title }}</ion-title>
+      <ion-title>{{ isLoading ? 'Loading...' : place.title }}</ion-title>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 
 <ion-content>
-  <ion-card>
+  <div *ngIf="isLoading" class="ion-text-center">
+    <ion-spinner color="primary" name="bubbles"></ion-spinner>
+  </div>
+  <ion-card *ngIf="!isLoading">
     <ion-card-header>
       <ion-card-title>{{ place.title }}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <ion-img [src]=place.imageURL></ion-img>
       <ion-card-subtitle>{{ place.description }}</ion-card-subtitle>
+      <hr>
+      <p class="ion-text-center"> {{ place.location.address }}</p>
+      <ion-img role="button" (click)="onShowFullMap()" class="location-image" [src]="place.location.staticMapImageUrl"></ion-img>
       <ion-card-content>
         {{ place.price | currency}} / month
       </ion-card-content>

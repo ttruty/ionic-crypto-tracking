@@ -1,8 +1,9 @@
+import { MapModalComponent } from './../../../shared/map-modal/map-modal.component';
 import { BookingService } from './../../../bookings/booking.service';
 import { CreateBookingComponent } from './../../../bookings/create-booking/create-booking.component';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ModalController, NavController, ActionSheetController, LoadingController } from '@ionic/angular';
+import { ModalController, NavController, ActionSheetController, LoadingController, AlertController } from '@ionic/angular';
 import { Place } from '../../place.model';
 import { PlacesService } from '../../places.service';
 import { Subscription } from 'rxjs';
@@ -23,11 +24,14 @@ export class PlaceDetailPage implements OnInit, OnDestroy {
     private actionSheetCtrl: ActionSheetController,
     private bookingService: BookingService,
     private loadingCtrl: LoadingController,
-    private authService: AuthService) { }
+    private authService: AuthService,
+    private alertCtrl: AlertController,
+    private router: Router) { }
 
   place: Place;
   isBookable = false;
   private placesSub: Subscription;
+  isLoading = false;
 
   ngOnInit() {
     this.route.paramMap.subscribe(paramMap => {
@@ -35,9 +39,21 @@ export class PlaceDetailPage implements OnInit, OnDestroy {
         this.navCtrl.navigateBack('/places/tabs/discover');
         return;
       }
+      this.isLoading = true;
       this.placesSub = this.placesService.getPlace(paramMap.get('placeId')).subscribe( place => {
         this.place = place;
         this.isBookable = place.userId !== this.authService.userId;
+        this.isLoading = false;
+      }, error => {
+        this.alertCtrl.create({
+          header: 'An Error Occurred',
+          message: 'Could not load place',
+          buttons: [{text: 'Okay', handler: () => {
+            this.router.navigate(['/places/tabs/discover']);
+          }}]
+        }).then(alertEl => {
+          alertEl.present();
+        });
       })
     });
   }
@@ -46,6 +62,21 @@ export class PlaceDetailPage implements OnInit, OnDestroy {
     if (this.placesSub) {
       this.placesSub.unsubscribe();
     }
+  }
+
+  onShowFullMap() {
+    this.modalCtrl.create({component: MapModalComponent, componentProps: {
+      center: {lat: this.place.location.lat, lng: this.place.location.lng},
+      selectable: false,
+      closeButtonText: 'Close',
+      title: this.place.location.address
+    }
+  })
+     .then(
+      modalEl => {
+        modalEl.present();
+      }
+    )
   }
 
   onBookPlace() {

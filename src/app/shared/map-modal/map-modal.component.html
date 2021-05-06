@@ -1,0 +1,15 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ title }}</ion-title>
+    <ion-button (click)="onCancel()" slot="primary" shape="round">
+      <ion-icon slot="start" name="close"></ion-icon>
+      {{ closeButtonText }}
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="map" #map>
+
+  </div>
+</ion-content>

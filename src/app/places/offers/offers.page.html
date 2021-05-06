@@ -13,7 +13,16 @@
 </ion-header>
 
 <ion-content>
-<ion-list>
+  <div class="ion-text-center">
+    <ion-spinner *ngIf="isLoading" color="primary" name="bubbles"></ion-spinner>
+  </div>
+  <div *ngIf="!isLoading && offers.length <= 0" class="ion-text-center">
+    <p>No offers found! Please create one first</p>
+    <ion-button color="primary" [routerLink]="['/places/tabs/offers/new']" routerLinkActive="router-link-active" shape="round">
+      Offer New Place
+    </ion-button>
+  </div>
+<ion-list *ngIf="!isLoading && offers.length > 0">
   <ion-item-sliding *ngFor="let offer of offers">
     <app-offer-item [offer]="offer">
     </app-offer-item>

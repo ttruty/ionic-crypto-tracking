@@ -1,3 +1,4 @@
+import { take, tap } from 'rxjs/operators';
 import { Place } from './../place.model';
 import { PlacesService } from './../places.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -50,10 +51,13 @@ export class DiscoverPage implements OnInit, OnDestroy {
   // }
 
   segmentChanged(filter: string) {
-    const isShown = place => filter === 'all' || place.userId !== this.authService.userId;
-    this.releventPlaces = this.loadedPlaces.filter(isShown);
-    this.filter = filter;
-    this.listLoadedPlaces = this.releventPlaces.slice(1);
+    console.log("Segment Changed", filter)
+    this.authService.userId.pipe(take(1)).subscribe(userId => {
+      const isShown = place => filter === 'all' || place.userId !== userId;
+      this.releventPlaces = this.loadedPlaces.filter(isShown);
+      this.filter = filter;
+      this.listLoadedPlaces = this.releventPlaces.slice(1);
+    })
   }
 
 }

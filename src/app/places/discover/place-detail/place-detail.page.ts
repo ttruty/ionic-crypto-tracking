@@ -1,3 +1,4 @@
+import { switchMap, take } from 'rxjs/operators';
 import { MapModalComponent } from './../../../shared/map-modal/map-modal.component';
 import { BookingService } from './../../../bookings/booking.service';
 import { CreateBookingComponent } from './../../../bookings/create-booking/create-booking.component';
@@ -40,9 +41,16 @@ export class PlaceDetailPage implements OnInit, OnDestroy {
         return;
       }
       this.isLoading = true;
-      this.placesSub = this.placesService.getPlace(paramMap.get('placeId')).subscribe( place => {
+      let fetchedUserId: string;
+      this.authService.userId.pipe(take(1), switchMap(userId => {
+        if (!userId){
+          throw new Error('Found no user Id')
+        }
+        fetchedUserId = userId;
+        return this.placesService.getPlace(paramMap.get('placeId'));
+      })).subscribe( place => {
         this.place = place;
-        this.isBookable = place.userId !== this.authService.userId;
+        this.isBookable = place.userId !== fetchedUserId;
         this.isLoading = false;
       }, error => {
         this.alertCtrl.create({

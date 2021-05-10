@@ -1,8 +1,9 @@
+import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import { AuthService } from './auth.service';
+import { AuthService, AuthResponseData } from './auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-auth',
@@ -18,6 +19,7 @@ export class AuthPage implements OnInit {
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private router: Router,
+    private alertCtrl: AlertController,
     private loadingCtrl: LoadingController
     ) {
       this.loginForm = this.formBuilder.group({
@@ -34,37 +36,64 @@ export class AuthPage implements OnInit {
     this.isLogin = !this.isLogin;
   }
 
-  onLogin() {
+  showAlert(message: string) {
+    this.alertCtrl.create({
+      header: 'Authentication Failed',
+      message: message,
+      buttons: ['Okay']
+    }).then(alertEl => {
+      alertEl.present()
+    })
+
+  }
+
+  onSubmit() {
     if (!this.loginForm.valid) {
       return;
     }
     const email = this.loginForm.value.email;
     const password = this.loginForm.value.password;
+
+    this.authenticate(email, password)
+    this.loginForm.reset();
+  }
+
+  authenticate(email:string, password:string) {
     this.isLoading = true;
     this.loadingCtrl.create({keyboardClose: true, message: 'Logging in...'})
     .then(loadingEl => {
       loadingEl.present();
-      setTimeout(() => {
+      let authObs: Observable<AuthResponseData>;
+      if (this.isLogin){
+        authObs = this.authService.login(email, password);
+      }
+      else {
+        authObs = this.authService.signup(email, password);
+      }
+      authObs.subscribe( resData => {
+        console.log(resData);
         this.isLoading = false;
         loadingEl.dismiss();
         this.router.navigateByUrl('/places/tabs/discover');
-      }, 1500);
+      }, errorRes => {
+        loadingEl.dismiss();
+        const code = errorRes.error.error.message;
+        let message = "Could not sign up"
+        if (code === 'EMAIL_EXISTS')
+        {
+          message = "This email exists already"
+        }
+        else if (code === 'EMAIL_NOT_FOUND')
+        {
+          message = "Email not found"
+        }
+        else if (code === 'INVALID_PASSWORD')
+        {
+          message = "Password is incorrect"
+        }
+        this.showAlert(message);
+      })
     });
-    console.log(this.loginForm.value);
-
-    if (this.isLogin) {
-      // send request to log on servers
-    }
-    else {
-      // send request to sign up servers
-    }
-
-    this.authService.login();
-    // if (this.loginForm.value.email === 'user'){
-    //   this.authService.login();
-    // }
-    console.log(this.authService.userIsAuthenticated);
-    this.loginForm.reset();
   }
 
 }

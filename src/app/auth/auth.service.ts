@@ -6,6 +6,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { environment } from 'src/environments/environment';
 
+
+const { Storage } = Plugins;
+
 export interface AuthResponseData {
   idToken: string;
   email: string;
@@ -172,6 +175,6 @@ export class AuthService implements OnDestroy{
       tokenExpirationDate: tokenExpirationDate,
       email: email,
     });
-    Plugins.Storage.set({ key: 'authData', value: data });
+    Storage.set({ key: 'authData', value: data });
   }
 }

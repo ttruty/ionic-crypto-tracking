@@ -1,4 +1,4 @@
-package com.timblygames.rentalapp;
+package com.timblygames.cryptids;
 
 import android.os.Bundle;
 

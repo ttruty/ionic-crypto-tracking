@@ -1,6 +1,6 @@
 {
-  "appId": "com.timblygames.rentalapp",
-  "appName": "ionic-rental-app",
+  "appId": "com.timblygames.cryptids",
+  "appName": "ionic-crypto-cryptids",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",

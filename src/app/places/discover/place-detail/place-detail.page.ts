@@ -88,30 +88,18 @@ export class PlaceDetailPage implements OnInit, OnDestroy {
   }
 
   onBookPlace() {
-    this.actionSheetCtrl.create({
-      header: "Choose an Action",
-      buttons: [{
-        text: 'Select Date',
-        handler: () => {
-          this.openBookingModel('select');
-        }
-      },
-      {
-        text: 'Random Date',
-        handler: () => {
-          this.openBookingModel('random');
-        }
-      },
-      {
-        text: 'Cancel',
-        role: 'cancel'
-      }
-      ]
-    }).then(
-      actionSheetEl => {
-        actionSheetEl.present();
-      }
-    )
+    this.loadingCtrl.create({
+      message: 'Booking Place...'
+    }).then(loadingEl => {
+      loadingEl.present();
+      this.bookingService.addBooking(
+        this.place.id,
+        this.place.title,
+        this.place.imageURL
+      ).subscribe(() => {
+        loadingEl.dismiss();
+      });
+    })
   }
 
   openBookingModel(mode: 'select' | 'random') {
@@ -127,24 +115,7 @@ export class PlaceDetailPage implements OnInit, OnDestroy {
       console.log(resultData.data, resultData.role);
 
       if (resultData.role === "confirm") {
-        this.loadingCtrl.create({
-          message: 'Booking Place...'
-        }).then(loadingEl => {
-          loadingEl.present();
-          const data = resultData.data.bookingData;
-          this.bookingService.addBooking(
-            this.place.id,
-            this.place.title,
-            this.place.imageURL,
-            data.firstName,
-            data.lastName,
-            data.guestNumber,
-            data.startDate,
-            data.endDate
-          ).subscribe(() => {
-            loadingEl.dismiss();
-          });
-        })
+
       }
     });
   }

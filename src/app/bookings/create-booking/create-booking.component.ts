@@ -10,7 +10,6 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 })
 export class CreateBookingComponent implements OnInit {
   @Input() selectedPlace: Place;
-  @Input() selectedMode: 'select' | 'random';
   bookingForm: FormGroup;
   startDate: string;
   endDate: string;
@@ -39,28 +38,6 @@ export class CreateBookingComponent implements OnInit {
   }
 
   ngOnInit() {
-    const availableFrom = new Date(this.selectedPlace.availableFrom);
-    const availableTo = new Date(this.selectedPlace.availableFrom);
-
-    if (this.selectedMode === 'random'){
-      this.startDate = new Date(
-        availableFrom.getTime() +
-        Math.random() * (
-          availableTo.getTime() - 7 * 24 * 60 * 60 * 1000 - availableFrom.getTime()
-          )
-        ).toISOString();
-
-      this.endDate = new Date(
-        new Date(this.startDate).getTime() +
-        Math.random() * (new Date(this.startDate).getTime() + 7 * 24 * 60 * 60 * 1000 - new Date(this.startDate).getTime()
-      )).toISOString();
-
-      // set default values on form
-      this.bookingForm.patchValue({
-        start_Date: this.startDate,
-        end_Date: this.endDate
-      });
-    }
   }
 
   onCancel() {this.modalCtrl.dismiss(null, 'cancel')}

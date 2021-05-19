@@ -14,8 +14,8 @@ import { AuthService } from 'src/app/auth/auth.service';
 export class DiscoverPage implements OnInit, OnDestroy {
   loadedPlaces: Place[];
   listLoadedPlaces: Place[];
-  private placesSub: Subscription;
   releventPlaces: Place[];
+  private placesSub: Subscription;
   private filter = 'all';
   isLoading = false;
 

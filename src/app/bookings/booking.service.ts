@@ -6,11 +6,6 @@ import { AuthService } from '../auth/auth.service';
 import { Booking } from './booking.model';
 
 interface BookingData {
-  bookedFrom: string;
-  bookedTo: string;
-  firstName: string;
-  guestNumber: number;
-  lastName: string;
   placeId: string;
   placeImage: string;
   placeTitle: string;
@@ -54,12 +49,7 @@ export class BookingService {
                 resData[key].placeId,
                 resData[key].userId,
                 resData[key].placeTitle,
-                resData[key].placeImage,
-                resData[key].guestNumber,
-                resData[key].firstName,
-                resData[key].lastName,
-                new Date(resData[key].bookedFrom),
-                new Date(resData[key].bookedTo)
+                resData[key].placeImage
               )
             );
           }
@@ -77,11 +67,6 @@ export class BookingService {
     placeId: string,
     placeTitle: string,
     placeImage: string,
-    firstName: string,
-    lastName: string,
-    guestNumber: number,
-    dateFrom: Date,
-    dateTo: Date
   ) {
     let generatedId: string;
     let newBooking: Booking;
@@ -102,12 +87,7 @@ export class BookingService {
           placeId,
           fetchedUserId,
           placeTitle,
-          placeImage,
-          guestNumber,
-          firstName,
-          lastName,
-          dateFrom,
-          dateTo
+          placeImage
         );
         return this.http.post<{ name: string }>(
           `https://ionic-air-bb-clone-default-rtdb.firebaseio.com/bookings.json?auth=${token}`,

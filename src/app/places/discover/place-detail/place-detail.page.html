@@ -22,13 +22,10 @@
       <hr>
       <p class="ion-text-center"> {{ place.location.address }}</p>
       <ion-img role="button" (click)="onShowFullMap()" class="location-image" [src]="place.location.staticMapImageUrl"></ion-img>
-      <ion-card-content>
-        {{ place.price | currency}} / month
-      </ion-card-content>
     </ion-card-content>
   </ion-card>
 
 <ion-button [disabled]="!isBookable" color="primary" class="ion-margin" (click)="onBookPlace()" >
-  Book
+  Hunt!
 </ion-button>
 </ion-content>

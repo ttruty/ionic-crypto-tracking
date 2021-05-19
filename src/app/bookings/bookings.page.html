@@ -3,29 +3,36 @@
     <ion-buttons slot="start">
       <ion-menu-button menu="menu-content"></ion-menu-button>
     </ion-buttons>
-    <ion-title>Your Bookings</ion-title>
+    <ion-title>Your Hunts</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-segment value="active" (ionChange)="segmentChanged($event.detail.value)">
+    <ion-segment-button value="active">
+      <ion-label>Active</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="complete">
+      <ion-label>Complete</ion-label>
+    </ion-segment-button>
+  </ion-segment>
   <ion-grid>
     <ion-row>
       <ion-col class='ion-text-center' size-md="6" offset-md="3" *ngIf="isLoading">
         <ion-spinner color="primary" name="bubbles"></ion-spinner>
       </ion-col>
       <ion-col class='ion-text-center' size-md="6" offset-md="3" *ngIf="!isLoading &&  (!loadedBookings || loadedBookings.length <= 0)">
-        <p class="ion-center">No bookings found</p>
+        <p class="ion-center">No hunts found</p>
       </ion-col>
       <ion-col size-md="6" offset-md="3" *ngIf="!isLoading && (loadedBookings && loadedBookings.length > 0)">
         <ion-list>
           <ion-item-sliding *ngFor="let booking of loadedBookings" #slidingBooking>
-            <ion-item>
+            <ion-item (click)="onSelectHunt(booking)">
               <ion-avatar slot="start">
                 <img [src]="booking.placeImage"/>
               </ion-avatar>
               <ion-label>
                 <h5>{{ booking.placeTitle }}</h5>
-                <p>Guests: {{ booking.guestNumber }}</p>
               </ion-label>
             </ion-item>
             <ion-item-options side="end">

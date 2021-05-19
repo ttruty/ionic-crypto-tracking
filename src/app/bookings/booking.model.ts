@@ -7,10 +7,6 @@ export class Booking {
     public userId: string,
     public placeTitle: string,
     public placeImage: string,
-    public guestNumber: number,
-    public firstName: string,
-    public lastName: string,
-    public bookedFrom: Date,
-    public bookedTo: Date,
+    public found?: boolean
   ){}
 }

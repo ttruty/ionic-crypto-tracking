@@ -7,11 +7,8 @@ import { Place } from './place.model';
 import { take, map, tap, switchMap } from 'rxjs/operators';
 
 interface PlaceData {
-  availableFrom: string;
-  availableTo: string;
   description: string;
   imageURL: string;
-  price: number;
   title: string;
   userId: string;
   location: PlaceLocation;
@@ -74,9 +71,6 @@ export class PlacesService {
           placeData.title,
           placeData.description,
           placeData.imageURL,
-          placeData.price,
-          new Date(placeData.availableFrom),
-          new Date(placeData.availableTo),
           placeData.userId,
           placeData.location
         );
@@ -101,9 +95,6 @@ export class PlacesService {
                 resData[key].title,
                 resData[key].description,
                 resData[key].imageURL,
-                resData[key].price,
-                new Date(resData[key].availableFrom),
-                new Date(resData[key].availableTo),
                 resData[key].userId,
                 resData[key].location
               )
@@ -159,9 +150,6 @@ export class PlacesService {
           title,
           description,
           imageUrl,
-          price,
-          dateFrom,
-          dateTo,
           fetchedUserId,
           location
         );
@@ -217,9 +205,6 @@ export class PlacesService {
           title,
           description,
           oldPlace.imageURL,
-          oldPlace.price,
-          oldPlace.availableFrom,
-          oldPlace.availableTo,
           oldPlace.userId,
           oldPlace.location
         );

@@ -3,7 +3,7 @@
      <ion-buttons slot="start">
        <ion-menu-button menu="menu-content"></ion-menu-button>
      </ion-buttons>
-    <ion-title>My Offers</ion-title>
+    <ion-title>My Posted Hunts</ion-title>
     <ion-buttons slot="primary">
       <ion-button routerLink="/places/tabs/offers/new">
         <ion-icon slot="icon-only" name="add"></ion-icon>
@@ -16,14 +16,14 @@
   <div class="ion-text-center">
     <ion-spinner *ngIf="isLoading" color="primary" name="bubbles"></ion-spinner>
   </div>
-  <div *ngIf="!isLoading && offers.length <= 0" class="ion-text-center">
-    <p>No offers found! Please create one first</p>
+  <div *ngIf="!isLoading && releventPlaces.length <= 0" class="ion-text-center">
+    <p>No hunts found! Please create one first</p>
     <ion-button color="primary" [routerLink]="['/places/tabs/offers/new']" routerLinkActive="router-link-active" shape="round">
-      Offer New Place
+      Make New Hunt
     </ion-button>
   </div>
-<ion-list *ngIf="!isLoading && offers.length > 0">
-  <ion-item-sliding *ngFor="let offer of offers">
+<ion-list *ngIf="!isLoading && releventPlaces.length > 0">
+  <ion-item-sliding *ngFor="let offer of releventPlaces">
     <app-offer-item [offer]="offer">
     </app-offer-item>
     <ion-item-options side="end">

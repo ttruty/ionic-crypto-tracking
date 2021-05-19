@@ -52,18 +52,6 @@ export class NewOfferPage implements OnInit {
           updateOn: 'blur',
           validators: [Validators.required, Validators.maxLength(180)]
         }),
-        price : new FormControl(null, {
-          updateOn: 'blur',
-          validators: [Validators.required, Validators.min(1)]
-        }),
-        dateFrom : new FormControl(null, {
-          updateOn: 'blur',
-          validators: [Validators.required]
-        }),
-        dateTo : new FormControl(null, {
-          updateOn: 'blur',
-          validators: [Validators.required]
-        }),
         location: new FormControl(null, {
           validators: [Validators.required]
         }),

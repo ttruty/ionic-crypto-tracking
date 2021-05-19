@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { BookingService } from './booking.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Booking } from './booking.model';
@@ -16,7 +17,8 @@ export class BookingsPage implements OnInit, OnDestroy {
 
   constructor(
     private bookingService: BookingService,
-    private loadingCtrl: LoadingController) { }
+    private loadingCtrl: LoadingController,
+    private router: Router) { }
 
   ngOnInit() {
     this.bookingSub = this.bookingService.bookings.subscribe(bookings => {
@@ -37,6 +39,11 @@ export class BookingsPage implements OnInit, OnDestroy {
     }
   }
 
+  onSelectHunt(booking) {
+    console.log("Hunt Selected", booking)
+    this.router.navigateByUrl("/places/tabs/discover/" + booking.placeId)
+  }
+
 
   onCancelBooking(bookingId: string, slidingEl: IonItemSliding){
     slidingEl.close();
@@ -49,6 +56,10 @@ export class BookingsPage implements OnInit, OnDestroy {
         loadingEl.dismiss();
       });
     });
+  }
+
+  segmentChanged(filter: string) {
+    console.log("Segment Changed", filter)
   }
 
 }

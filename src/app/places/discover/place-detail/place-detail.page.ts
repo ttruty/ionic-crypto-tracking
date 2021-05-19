@@ -1,7 +1,6 @@
 import { switchMap, take } from 'rxjs/operators';
 import { MapModalComponent } from './../../../shared/map-modal/map-modal.component';
 import { BookingService } from './../../../bookings/booking.service';
-import { CreateBookingComponent } from './../../../bookings/create-booking/create-booking.component';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalController, NavController, ActionSheetController, LoadingController, AlertController } from '@ionic/angular';
@@ -100,24 +99,6 @@ export class PlaceDetailPage implements OnInit, OnDestroy {
         loadingEl.dismiss();
       });
     })
-  }
-
-  openBookingModel(mode: 'select' | 'random') {
-    console.log(mode);
-
-    this.modalCtrl.create({
-      component: CreateBookingComponent,
-      componentProps: {selectedPlace: this.place, selectedMode: mode}}).then(modalEl => {
-      modalEl.present();
-      return modalEl.onDidDismiss();
-    })
-    .then(resultData => {
-      console.log(resultData.data, resultData.role);
-
-      if (resultData.role === "confirm") {
-
-      }
-    });
   }
 
 }

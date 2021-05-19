@@ -58,7 +58,8 @@ export class BookingsPage implements OnInit, OnDestroy {
     });
   }
 
-  segmentChanged(filter: string) {
+  segmentChanged(filter: any) {
+    filter = filter.detail.value;
     console.log("Segment Changed", filter)
   }
 

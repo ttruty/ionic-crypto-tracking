@@ -8,10 +8,9 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { CreateBookingComponent } from './bookings/create-booking/create-booking.component';
 
 @NgModule({
-  declarations: [AppComponent, CreateBookingComponent],
+  declarations: [AppComponent],
   entryComponents: [],
   imports: [
     BrowserModule,

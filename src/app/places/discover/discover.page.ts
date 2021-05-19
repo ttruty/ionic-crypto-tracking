@@ -50,8 +50,12 @@ export class DiscoverPage implements OnInit, OnDestroy {
   //   this.listLoadedPlaces = this.loadedPlaces.slice(1);
   // }
 
-  segmentChanged(filter: string) {
-    console.log("Segment Changed", filter)
+  segmentChanged(filter: any) {
+    if (filter.detail){
+      filter = filter.detail.value;
+    } else {
+      filter = this.filter
+    }
     this.authService.userId.pipe(take(1)).subscribe(userId => {
       const isShown = place => filter === 'all' || place.userId !== userId;
       this.releventPlaces = this.loadedPlaces.filter(isShown);

@@ -125,9 +125,6 @@ export class PlacesService {
   addPlace(
     title: string,
     description: string,
-    price: number,
-    dateFrom: Date,
-    dateTo: Date,
     location: PlaceLocation,
     imageUrl: string
   ) {

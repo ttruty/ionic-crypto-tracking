@@ -8,7 +8,7 @@ import { Component, OnInit, AfterViewInit, ElementRef, ViewChild, Renderer2, OnD
   styleUrls: ['./map-modal.component.scss'],
 })
 export class MapModalComponent implements OnInit, AfterViewInit, OnDestroy {
-  @Input() center = { lat: 44.929, lng: -93.165 };
+  @Input() center = { lat: 41.43, lng: -123.70 };
   @Input() selectable = true;
   @Input() closeButtonText = 'Cancel';
   @Input() title = 'Pick Location';

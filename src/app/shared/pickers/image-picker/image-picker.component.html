@@ -1,11 +1,11 @@
 <div class="picker">
-  <img
-    class="location-image"
-    [src]="selectedImage"
-    *ngIf="selectedImage && showPreview"
-    role="button"
-    (click) = "onPickImage()"
-  >
+    <img
+      class="location-image"
+      [src]="selectedImage"
+      *ngIf="selectedImage && showPreview"
+      role="button"
+      (click) = "onPickImage()"
+    >
   <ion-button
     *ngIf="!selectedImage && !showPreview"
     (click)="onPickImage()"

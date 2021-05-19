@@ -135,7 +135,7 @@ export class LocationPickerComponent implements OnInit {
         switchMap((address) => {
           pickedLocation.address = address;
           return of(
-            this.getMapImage(pickedLocation.lat, pickedLocation.lng, 14)
+            this.getMapImage(pickedLocation.lat, pickedLocation.lng, 10)
           );
         })
       )

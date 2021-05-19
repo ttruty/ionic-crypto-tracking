@@ -38,7 +38,7 @@
           <ion-card-header>
             <ion-card-title>{{ releventPlaces[0].title }}</ion-card-title>
           </ion-card-header>
-          <ion-img [src]=loadedPlaces[0].imageURL></ion-img>
+          <ion-img [src]=releventPlaces[0].imageURL></ion-img>
           <ion-card-content>
            <p> {{ releventPlaces[0].description }}</p>
           </ion-card-content>
@@ -65,7 +65,7 @@
               <h2>{{ place.title }}</h2>
               <p>
                 <ion-text color="primary">
-              </ion-text>>{{ place.description }}
+              </ion-text>{{ place.description }}
             </p>
           </ion-label>
           </ion-item>

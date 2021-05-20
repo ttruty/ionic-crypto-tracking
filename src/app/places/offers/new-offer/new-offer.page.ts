@@ -84,7 +84,7 @@ export class NewOfferPage implements OnInit {
       return;
     }
     this.loaderCtrl.create({
-      message: 'Creating place...'
+      message: 'Creating cryptid hunt...'
     }).then(loadingEl => {
       loadingEl.present();
       this.placeService.uploadImage(this.form.get('image').value).pipe(switchMap(uploadResponse => {

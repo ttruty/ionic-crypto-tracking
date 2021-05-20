@@ -88,7 +88,7 @@ export class PlaceDetailPage implements OnInit, OnDestroy {
 
   onBookPlace() {
     this.loadingCtrl.create({
-      message: 'Booking Place...'
+      message: 'Adding Hunt...'
     }).then(loadingEl => {
       loadingEl.present();
       this.bookingService.addBooking(

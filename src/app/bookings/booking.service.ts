@@ -2,9 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { AuthService } from '../auth/auth.service';
 import { Booking } from './booking.model';
-import { environment } from 'src/environments/environment';
 
 interface BookingData {
   placeId: string;

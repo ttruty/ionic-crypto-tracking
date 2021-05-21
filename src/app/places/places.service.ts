@@ -1,3 +1,4 @@
+import { environment } from 'src/environments/environment';
 import { PlaceLocation } from './location.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -62,7 +63,7 @@ export class PlacesService {
     return this.authService.token.pipe(take(1),
       switchMap((token) => {
         return this.http.get<PlaceData>(
-          `https://ionic-air-bb-clone-default-rtdb.firebaseio.com/offered-places/${id}.json?auth=${token}`
+          `${environment.firebaseOrigin}/offered-places/${id}.json?auth=${token}`
         );
       }),
       map((placeData) => {
@@ -82,7 +83,7 @@ export class PlacesService {
     return this.authService.token.pipe(take(1),
       switchMap((token) => {
         return this.http.get<{ [key: string]: PlaceData }>(
-          `https://ionic-air-bb-clone-default-rtdb.firebaseio.com/offered-places.json?auth=${token}`
+          `${environment.firebaseOrigin}/offered-places.json?auth=${token}`
         );
       }),
       map((resData) => {
@@ -115,7 +116,7 @@ export class PlacesService {
     return this.authService.token.pipe(take(1),switchMap(token => {
       uploadData.append('image', image);
       return this.http.post<{ imageUrl: string; imagePage: string }>(
-        'https://us-central1-ionic-air-bb-clone.cloudfunctions.net/storeImage',
+        'https://us-central1-crypto-cryptids.cloudfunctions.net/storeImage',
         uploadData, {headers: {Authorization: 'Bearer ' + token}}
       );
     }))
@@ -151,7 +152,7 @@ export class PlacesService {
           location
         );
         return this.http.post<{ name: string }>(
-          `https://ionic-air-bb-clone-default-rtdb.firebaseio.com/offered-places.json?auth=${token}`,
+          `${environment.firebaseOrigin}/offered-places.json?auth=${token}`,
           {
             ...newPlace,
             id: null,
@@ -206,7 +207,7 @@ export class PlacesService {
           oldPlace.location
         );
         return this.http.put(
-          `https://ionic-air-bb-clone-default-rtdb.firebaseio.com/offered-places/${id}.json?auth=${fetchedToken}`,
+          `${environment.firebaseOrigin}/offered-places/${id}.json?auth=${fetchedToken}`,
           { ...updatePlaces[updatePlaceIndex], id: null }
         );
       }),

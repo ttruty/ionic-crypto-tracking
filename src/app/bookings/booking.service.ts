@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { delay, first, map, switchMap, take, tap } from 'rxjs/operators';
+import { map, switchMap, take, tap } from 'rxjs/operators';
 import { AuthService } from '../auth/auth.service';
 import { Booking } from './booking.model';
+import { environment } from 'src/environments/environment';
 
 interface BookingData {
   placeId: string;
@@ -36,7 +37,7 @@ export class BookingService {
       take(1),
       switchMap(token => {
         return this.http.get<{ [key: string]: BookingData }>(
-          `https://ionic-air-bb-clone-default-rtdb.firebaseio.com/bookings.json?orderBy="userId"&equalTo="${fetchedUserId}"&auth=${token}`
+          `${environment.firebaseOrigin}/bookings.json?orderBy="userId"&equalTo="${fetchedUserId}"&auth=${token}`
         );
       }),
       map((resData) => {
@@ -90,7 +91,7 @@ export class BookingService {
           placeImage
         );
         return this.http.post<{ name: string }>(
-          `https://ionic-air-bb-clone-default-rtdb.firebaseio.com/bookings.json?auth=${token}`,
+          `${environment.firebaseOrigin}/bookings.json?auth=${token}`,
           {
             ...newBooking,
             id: null,
@@ -120,7 +121,7 @@ export class BookingService {
       switchMap(token => {
         return this.http
           .delete(
-            `https://ionic-air-bb-clone-default-rtdb.firebaseio.com/bookings/${id}.json?auth=${token}`
+            `${environment.firebaseOrigin}/bookings/${id}.json?auth=${token}`
           )
       }),
         switchMap(() => {

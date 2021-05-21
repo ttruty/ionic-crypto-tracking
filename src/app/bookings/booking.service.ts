@@ -1,6 +1,7 @@
+import { PlacesService } from './../places/places.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../auth/auth.service';
@@ -17,7 +18,7 @@ interface BookingData {
 export class BookingService {
   private _bookings = new BehaviorSubject<Booking[]>([]);
 
-  constructor(private authService: AuthService, private http: HttpClient) {}
+  constructor(private authService: AuthService, private http: HttpClient, private placeService: PlacesService) {}
 
   get bookings() {
     return this._bookings.asObservable();
@@ -60,6 +61,45 @@ export class BookingService {
       }),
       tap((bookings) => {
         this._bookings.next(bookings);
+      })
+    );
+  }
+
+  foundBooking(id: string) {
+    let updateBooking: Booking[];
+    let fetchedToken
+    return this.authService.token.pipe(take(1), switchMap(token => {
+      fetchedToken = token;
+      return this.bookings;
+    }),
+      take(1),
+      switchMap((bookings) => {
+        if (!bookings || bookings.length <= 0) {
+          return this.fetchBookings();
+        } else {
+          return of(bookings);
+        }
+      }),
+      switchMap((bookings) => {
+        const updateBookingIndex = bookings.findIndex((p) => p.id === id);
+        updateBooking = [...bookings];
+        const oldBooking = updateBooking[updateBookingIndex];
+        updateBooking[updateBookingIndex] = new Booking(
+          oldBooking.id,
+          oldBooking.placeId,
+          oldBooking.userId,
+          oldBooking.placeTitle,
+          oldBooking.placeImage,
+          true
+        );
+        this.placeService.foundPlace(oldBooking.placeId).subscribe();
+        return this.http.put(
+          `${environment.firebaseOrigin}/bookings/${id}.json?auth=${fetchedToken}`,
+          {...updateBooking[updateBookingIndex], id: null }
+        );
+      }),
+      tap((respData) => {
+        this._bookings.next(updateBooking);
       })
     );
   }
@@ -108,11 +148,6 @@ export class BookingService {
         this._bookings.next(bookings.concat(newBooking));
       })
     );
-
-    // return this.bookings.pipe(take(1), delay(1500), tap(bookings => {
-    //   this._bookings.next(bookings.concat(newBooking));
-    //   })
-    // );
   }
 
   cancelBooking(id: string) {

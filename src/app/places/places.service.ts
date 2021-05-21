@@ -13,6 +13,7 @@ interface PlaceData {
   title: string;
   userId: string;
   location: PlaceLocation;
+  foundCount: number;
 }
 
 // new Place(
@@ -73,7 +74,8 @@ export class PlacesService {
           placeData.description,
           placeData.imageURL,
           placeData.userId,
-          placeData.location
+          placeData.location,
+          placeData.foundCount
         );
       })
     );
@@ -97,7 +99,8 @@ export class PlacesService {
                 resData[key].description,
                 resData[key].imageURL,
                 resData[key].userId,
-                resData[key].location
+                resData[key].location,
+                resData[key].foundCount
               )
             );
           }
@@ -149,7 +152,8 @@ export class PlacesService {
           description,
           imageUrl,
           fetchedUserId,
-          location
+          location,
+          0
         );
         return this.http.post<{ name: string }>(
           `${environment.firebaseOrigin}/offered-places.json?auth=${token}`,
@@ -204,7 +208,49 @@ export class PlacesService {
           description,
           oldPlace.imageURL,
           oldPlace.userId,
-          oldPlace.location
+          oldPlace.location,
+          oldPlace.foundCount,
+        );
+        return this.http.put(
+          `${environment.firebaseOrigin}/offered-places/${id}.json?auth=${fetchedToken}`,
+          { ...updatePlaces[updatePlaceIndex], id: null }
+        );
+      }),
+      tap((respData) => {
+        this._places.next(updatePlaces);
+      })
+    );
+  }
+
+  foundPlace(id: string) {
+    let updatePlaces: Place[];
+    let fetchedToken
+    return this.authService.token.pipe(take(1), switchMap(token => {
+      fetchedToken = token;
+      return this.places;
+    }),
+      take(1),
+      switchMap((places) => {
+        if (!places || places.length <= 0) {
+          return this.fetchPlaces();
+        } else {
+          return of(places);
+        }
+      }),
+      switchMap((places) => {
+        const updatePlaceIndex = places.findIndex((p) => p.id === id);
+        updatePlaces = [...places];
+        const oldPlace = updatePlaces[updatePlaceIndex];
+        let count = oldPlace.foundCount + 1;
+        console.log(oldPlace)
+        updatePlaces[updatePlaceIndex] = new Place(
+          oldPlace.id,
+          oldPlace.title,
+          oldPlace.description,
+          oldPlace.imageURL,
+          oldPlace.userId,
+          oldPlace.location,
+          count
         );
         return this.http.put(
           `${environment.firebaseOrigin}/offered-places/${id}.json?auth=${fetchedToken}`,

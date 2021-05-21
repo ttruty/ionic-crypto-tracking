@@ -44,6 +44,19 @@ export class BookingsPage implements OnInit, OnDestroy {
     this.router.navigateByUrl("/places/tabs/discover/" + booking.placeId)
   }
 
+  onFound(bookingId: string, slidingEl: IonItemSliding){
+    slidingEl.close();
+    this.loadingCtrl.create({
+      message: 'Found!'
+    }).then(loadingEl => {
+      loadingEl.present();
+      this.bookingSub = this.bookingService.foundBooking(bookingId).subscribe(() =>
+      {
+        loadingEl.dismiss();
+      });
+    });
+  }
+
 
   onCancelBooking(bookingId: string, slidingEl: IonItemSliding){
     slidingEl.close();

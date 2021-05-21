@@ -6,6 +6,7 @@ export class Place {
     public description: string,
     public imageURL: string,
     public userId: string,
-    public location: PlaceLocation
+    public location: PlaceLocation,
+    public foundCount?: number
   ) {}
 }

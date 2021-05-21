@@ -19,6 +19,8 @@
     <ion-card-content>
       <ion-img [src]=place.imageURL></ion-img>
       <ion-card-subtitle>{{ place.description }}</ion-card-subtitle>
+      <ion-card-subtitle>Found: {{ place.foundCount }}</ion-card-subtitle>
+
       <hr>
       <p class="ion-text-center"> {{ place.location.address }}</p>
       <ion-img role="button" (click)="onShowFullMap()" class="location-image" [src]="place.location.staticMapImageUrl"></ion-img>

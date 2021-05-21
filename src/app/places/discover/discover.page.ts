@@ -26,7 +26,7 @@ export class DiscoverPage implements OnInit, OnDestroy {
     this.placesSub = this.placesService.places.subscribe(places => {
       this.loadedPlaces = places;
       this.segmentChanged(this.filter);
-      this.releventPlaces = this.loadedPlaces;
+      this.releventPlaces = this.loadedPlaces.reverse();
       console.log(this.releventPlaces)
       this.listLoadedPlaces = this.releventPlaces.slice(1);
     });
@@ -58,7 +58,7 @@ export class DiscoverPage implements OnInit, OnDestroy {
     }
     this.authService.userId.pipe(take(1)).subscribe(userId => {
       const isShown = place => filter === 'all' || place.userId !== userId;
-      this.releventPlaces = this.loadedPlaces.filter(isShown);
+      this.releventPlaces = this.loadedPlaces.filter(isShown).reverse();
       this.filter = filter;
       this.listLoadedPlaces = this.releventPlaces.slice(1);
     })

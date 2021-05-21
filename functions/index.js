@@ -10,7 +10,7 @@ const fbAdmin = require("firebase-admin");
 const { Storage } = require("@google-cloud/storage");
 
 const storage = new Storage({
-  projectId: "ionic-air-bb-clone",
+  projectId: "crypto-cryptids",
 });
 
 fbAdmin.initializeApp({
@@ -54,7 +54,7 @@ exports.storeImage = functions.https.onRequest((req, res) => {
       .verifyIdToken(idToken)
       .then(decodedToken => {
         return storage
-        .bucket("ionic-air-bb-clone.appspot.com")
+        .bucket("crypto-cryptids.appspot.com")
         .upload(uploadData.filePath, {
           uploadType: "media",
           destination: imagePath,
@@ -70,7 +70,7 @@ exports.storeImage = functions.https.onRequest((req, res) => {
           return res.status(201).json({
             imageUrl:
               "https://firebasestorage.googleapis.com/v0/b/" +
-              storage.bucket("ionic-air-bb-clone.appspot.com").name +
+              storage.bucket("crypto-cryptids.appspot.com").name +
               "/o/" +
               encodeURIComponent(imagePath) +
               "?alt=media&token=" +
